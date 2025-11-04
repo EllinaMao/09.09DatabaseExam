@@ -330,7 +330,20 @@ namespace DataBaseModels
                         Console.WriteLine(ex.Message);
                     }
                     #endregion
-                    #region 11. Выполнение в коде Вставку новой дисциплины, затем изменение ее названия, далее удалите выполняя команду SQL  со стороны SQL клиента
+
+                    #endregion
+                    #region FromSql
+                    try
+                    {
+                        //in progress
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    #endregion
+
+                    #region Task11. Выполнение в коде Вставку новой дисциплины, затем изменение ее названия, далее удалите выполняя команду SQL  со стороны SQL клиента
                     try
                     {
                         // 1. ВСТАВКА
@@ -352,18 +365,15 @@ namespace DataBaseModels
                     {
                         Console.WriteLine($"[SQL] Ошибка: {ex.Message}");
                     }
-                }
 
-                #endregion
+                    #endregion
+                }
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + Environment.CommandLine);
             }
-            #endregion
-
-
         }
 
     }
