@@ -156,7 +156,7 @@ namespace DataBaseModels
             #region Переменные для заданий
             // --- Задание 1 ---
             var num1 = 100000;
-            var task1 = $"Вывести номера корпусов, если суммарный фонд финансирования расположенных в них кафедр превышает {num1}";
+            var task1 = $"\n1. Вывести номера корпусов, если суммарный фонд финансирования расположенных в них кафедр превышает {num1}";
 
             // --- Задание 2 ---
             var courseT2 = 5;
@@ -164,123 +164,208 @@ namespace DataBaseModels
             var lessonsNumT2 = 10;
             var weekStartT2 = new DateTime(2025, 9, 1);
             var weekEndT2 = new DateTime(2025, 9, 7);//не понимаю что такое первая неделя. Первая неделя чего?
-            var task2 = $"Вывести названия групп {courseT2}-го курса кафедры «{departmentNameT2}», которые имеют более {lessonsNumT2} пар в первую неделю.";
+            var task2 = $"\n2. Вывести названия групп {courseT2}-го курса кафедры «{departmentNameT2}», которые имеют более {lessonsNumT2} пар в первую неделю.";
 
             // --- Задание 3 ---
             var groupNameT3 = "D221";
-            var task3 = $"Вывести названия групп, имеющих рейтинг (средний) больше, чем рейтинг группы «{groupNameT3}».";
+            var task3 = $"\n3. Вывести названия групп, имеющих рейтинг (средний) больше, чем рейтинг группы «{groupNameT3}».";
 
             // --- Задание 4 ---
-            var task4 = $"Вывести фамилии и имена преподавателей, ставка которых выше средней ставки профессоров.";
+            var task4 = $"\n4. Вывести фамилии и имена преподавателей, ставка которых выше средней ставки профессоров.";
 
             // --- Задание 5 ---
             var curatorCountT5 = 1;
-            var task5 = $"Вывести названия групп, у которых больше {curatorCountT5} куратора.";
+            var task5 = $"\n5. Вывести названия групп, у которых больше {curatorCountT5} куратора.";
 
             // --- Задание 6 ---
             var yearT6 = 5;
-            var task6 = $"Вывести названия групп, имеющих рейтинг (средний) меньше, чем минимальный рейтинг групп {yearT6}-го курса.";
+            var task6 = $"\n6. Вывести названия групп, имеющих рейтинг (средний) меньше, чем минимальный рейтинг групп {yearT6}-го курса.";
 
             // --- Задание 7 ---
             var facultyNameT7 = "Computer Science";
-            var task7 = $"Вывести названия факультетов, суммарный фонд... > суммарного фонда... факультета «{facultyNameT7}». (Вызов процедуры)";
+            var task7 = $"\n7. Вывести названия факультетов, суммарный фонд финансирования кафедр которых больше суммарного фонда финансирования кафедр факультета {facultyNameT7}.  Для этого запроса напишите процедуру, и вызовите  в коде процедуру";
 
             // --- Задание 8 ---
-            var task8 = $"Вывести названия дисциплин и полные имена преподавателей, читающих наибольшее количество лекций по ним.";
+            var task8 = $"\n8. Вывести названия дисциплин и полные имена преподавателей, читающих наибольшее количество лекций по ним.";
 
             // --- Задание 9 ---
-            var task9 = $"Вывести название дисциплины, по которому читается меньше всего лекций.";
+            var task9 = $"\n9. Вывести название дисциплины, по которому читается меньше всего лекций.";
 
             // --- Задание 10 ---
             var deptNameT10 = "Software Development";
-            var task10 = $"Вывести количество студентов и читаемых дисциплин на кафедре «{deptNameT10}»";
+            var task10 = $"\n10. Вывести количество студентов и читаемых дисциплин на кафедре «{deptNameT10}»";
 
             // --- Задание 11 ---
             var subjectT11 = "Новая SQL Дисциплина";
             var newSubjectT11 = "Обновленная SQL Дисциплина";
             var task11 = $"Выполнить (через Raw SQL) Вставку, Изменение и Удаление дисциплины.";
 
+
             #endregion
             #region LinqRequests
-
-            using (var context = new DbContext())
+            try
             {
-                #region 1. Корпуса с фондом > 100 000
 
-                context.Database.EnsureCreated();
-                var res = LinqDatabaseRequests.GetBuildingsWithFinancingAbove(context, num1);
 
-                ConsolePrintClass.PrintResults(res, task1, b => Console.WriteLine($"Корпус {b}"));
+                using (var context = new DbContext())
+                {
+                    #region 1. Корпуса с фондом > 100 000
+                    try
+                    {
+
+                        context.Database.EnsureCreated();
+                        var res = LinqDatabaseRequests.GetBuildingsWithFinancingAbove(context, num1);
+
+                        ConsolePrintClass.PrintResults(res, task1, b => Console.WriteLine($"Корпус {b}"));
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    #endregion
+                    #region 2. Группы 5-го курса кафедры «Software Development», которые имеют более 10 пар в первую неделю.
+                    try
+                    {
+                        var res2 = LinqDatabaseRequests.GetGroupsByAmountOfLectures(context, courseT2, lessonsNumT2, departmentNameT2, weekStartT2, weekEndT2);
+                        ConsolePrintClass.PrintResults(res2, task2, b => Console.WriteLine($"Название группы: {b}"));
+                        #endregion
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    #region 3. Группы с рейтингом больше чем рейтинг группы «D221»
+                    try
+                    {
+                        var res3 = LinqDatabaseRequests.GetGroupsWithRatingHigherThen(context, groupNameT3);
+                        ConsolePrintClass.PrintResults(res3, task3, b => Console.WriteLine($"Группа: {b.Name}, Рейтинг: {b.AvgRating:F2}"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    #endregion
+                    #region 4. Фамилии и имена преподавателей, ставка которых выше средней ставки профессоров
+                    try
+                    {
+                        var res4 = LinqDatabaseRequests.GetTeachersNamesAndSurnames(context);
+                        ConsolePrintClass.PrintResults(res4, task4, b => Console.WriteLine($"Преподаватель: {b.Surname} {b.Name}, Ставка: {b.Salary:C}"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    #endregion
+                    #region 5. Названия групп, у которых больше одного куратора.
+                    try
+                    {
+                        var res5 = LinqDatabaseRequests.GetGroupsWithMoreThanCurators(context, curatorCountT5);
+                        ConsolePrintClass.PrintResults(res5, task5, b => Console.WriteLine($"Группа: {b.Name} (Кураторов: {b.Count})"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    #endregion
+                    #region 6. Названия групп, имеющих рейтинг меньше, чем минимальный рейтинг групп 5-го курса.
+                    try
+                    {
+                        var res6 = LinqDatabaseRequests.GetGroupsWithRatingLowerThanMinForYear(context, yearT6);
+                        ConsolePrintClass.PrintResults(res6, task6, b => Console.WriteLine($"Группа: {b.Name}, Рейтинг: {b.AvgRating:F2}"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    #endregion
+                    #region 7. Процедура - Названия факультетов, суммарный фонд финансирования кафедр которых больше суммарного фонда финансирования кафедр факультета «Com­puter Science».
+                    try
+                    {
+                        var res7 = LinqDatabaseRequests.GetProcedureFacultiesWithHigherFinancingThan(context, facultyNameT7);
+                        ConsolePrintClass.PrintResults(res7, task7, b => Console.WriteLine($"Факультет: {b.Name}"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    #endregion
+                    #region 8. Названия дисциплин и полные имена преподавателей, читающих наибольшее количество лекций по ним.
+                    try
+                    {
+                        var res8 = LinqDatabaseRequests.GetTopTeacherPerSubject(context);
+                        ConsolePrintClass.PrintResults(res8, task8,
+                        b => Console.WriteLine($"Дисциплина: {b.SubjectName}, Преподаватель: {b.TeacherFullName} (Лекций: {b.LectureCount})"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    #endregion
+                    #region 9. Название дисциплины, по которому читается меньше всего лекций
+                    try
+                    {
+                        var res9 = LinqDatabaseRequests.GetSubjectWithLeastLectures(context);
+                        ConsolePrintClass.PrintResults(res9, task9, b => Console.WriteLine($"Предмет: {b.Name} (Лекций: {b.Count})"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    #endregion
+                    #region 10. Количество студентов и читаемых дисциплин на кафедре «Software Development»
+                    try
+                    {
+                        var res10 = LinqDatabaseRequests.GetStudentAndSubjectCountForDept(context, deptNameT10);
+                        ConsolePrintClass.PrintResults(res10, task10, b => Console.WriteLine($"Студентов: {b.StudentCount}, Дисциплин: {b.SubjectCount}"));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    #endregion
+                    #region 11. Выполнение в коде Вставку новой дисциплины, затем изменение ее названия, далее удалите выполняя команду SQL  со стороны SQL клиента
+                    try
+                    {
+                        // 1. ВСТАВКА
+                        int inserted = context.Database.ExecuteSqlInterpolated(
+                            $"INSERT INTO subjects (subject_name) VALUES ({subjectT11})");
+                        Console.WriteLine($"[SQL] 1. Добавлена '{subjectT11}' (строк: {inserted})");
+
+                        // 2. ИЗМЕНЕНИЕ
+                        int updated = context.Database.ExecuteSqlInterpolated(
+                            $"UPDATE subjects SET subject_name = {newSubjectT11} WHERE subject_name = {subjectT11}");
+                        Console.WriteLine($"[SQL] 2. Изменено на '{newSubjectT11}' (строк: {updated})");
+
+                        // 3. УДАЛЕНИЕ
+                        int deleted = context.Database.ExecuteSqlInterpolated(
+                            $"DELETE FROM subjects WHERE subject_name = {newSubjectT11}");
+                        Console.WriteLine($"[SQL] 3. Удалена '{newSubjectT11}' (строк: {deleted})");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[SQL] Ошибка: {ex.Message}");
+                    }
+                }
 
                 #endregion
-                #region 2. Группы 5-го курса кафедры «Software Development», которые имеют более 10 пар в первую неделю.
-
-                var res2 = LinqDatabaseRequests.GetGroupsByAmountOfLectures(context, courseT2, lessonsNumT2, departmentNameT2, weekStartT2, weekEndT2);
-                ConsolePrintClass.PrintResults(res2, task2, b => Console.WriteLine($"Название группы: {b}"));
-                #endregion
-                #region 3. Группы с рейтингом больше чем рейтинг группы «D221»
-
-
-                #endregion
-                #region 4. Фамилии и имена преподавателей, ставка которых выше средней ставки профессоров
-
-
-                #endregion
-                #region 5. Названия групп, у которых больше одного куратора.
-
-
-                #endregion
-                #region 6. Названия групп, имеющих рейтинг меньше, чем минимальный рейтинг групп 5-го курса.
-
-
-                #endregion
-                #region 7. Процедура - Названия факультетов, суммарный фонд финансирования кафедр которых больше суммарного фонда финансирования кафедр факультета «Com­puter Science».
-
-
-                #endregion
-                #region 8. Названия дисциплин и полные имена преподавателей, читающих наибольшее количество лекций по ним.
-
-
-                #endregion
-                #region 9. Название дисциплины, по которому читается меньше всего лекций
-
-
-                #endregion
-                #region 10. Количество студентов и читаемых дисциплин на кафедре «Software Development»
-
-
-
-                #endregion
-                #region 11. Выполнение в коде Вставку новой дисциплины, затем изменение ее названия, далее удалите выполняя команду SQL  со стороны SQL клиента
-
-
-                #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.CommandLine);
+            }
             #endregion
+
+
         }
+
     }
+
 }
