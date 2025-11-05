@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataBaseModels
 {
-    internal static class LinqDatabaseRequests
+    internal static class ExtensionMethods
     {
         //1.Вывести номера корпусов, если суммарный фонд финансирования расположенных в них кафедр превышает 100000.
         //Departments - building(корпус)

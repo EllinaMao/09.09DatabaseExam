@@ -202,7 +202,7 @@ namespace DataBaseModels
 
 
             #endregion
-            #region LinqRequests
+            #region ExtensionMethods
             try
             {
 
@@ -214,7 +214,7 @@ namespace DataBaseModels
                     {
 
                         context.Database.EnsureCreated();
-                        var res = LinqDatabaseRequests.GetBuildingsWithFinancingAbove(context, num1);
+                        var res = ExtensionMethods.GetBuildingsWithFinancingAbove(context, num1);
 
                         ConsolePrintClass.PrintResults(res, task1, b => Console.WriteLine($"Корпус {b}"));
 
@@ -227,7 +227,7 @@ namespace DataBaseModels
                     #region 2. Группы 5-го курса кафедры «Software Development», которые имеют более 10 пар в первую неделю.
                     try
                     {
-                        var res2 = LinqDatabaseRequests.GetGroupsByAmountOfLectures(context, courseT2, lessonsNumT2, departmentNameT2, weekStartT2, weekEndT2);
+                        var res2 = ExtensionMethods.GetGroupsByAmountOfLectures(context, courseT2, lessonsNumT2, departmentNameT2, weekStartT2, weekEndT2);
                         ConsolePrintClass.PrintResults(res2, task2, b => Console.WriteLine($"Название группы: {b}"));
                         #endregion
                     }
@@ -238,7 +238,7 @@ namespace DataBaseModels
                     #region 3. Группы с рейтингом больше чем рейтинг группы «D221»
                     try
                     {
-                        var res3 = LinqDatabaseRequests.GetGroupsWithRatingHigherThen(context, groupNameT3);
+                        var res3 = ExtensionMethods.GetGroupsWithRatingHigherThen(context, groupNameT3);
                         ConsolePrintClass.PrintResults(res3, task3, b => Console.WriteLine($"Группа: {b.Name}, Рейтинг: {b.AvgRating:F2}"));
                     }
                     catch (Exception ex)
@@ -249,7 +249,7 @@ namespace DataBaseModels
                     #region 4. Фамилии и имена преподавателей, ставка которых выше средней ставки профессоров
                     try
                     {
-                        var res4 = LinqDatabaseRequests.GetTeachersNamesAndSurnames(context);
+                        var res4 = ExtensionMethods.GetTeachersNamesAndSurnames(context);
                         ConsolePrintClass.PrintResults(res4, task4, b => Console.WriteLine($"Преподаватель: {b.Surname} {b.Name}, Ставка: {b.Salary:C}"));
                     }
                     catch (Exception ex)
@@ -261,7 +261,7 @@ namespace DataBaseModels
                     #region 5. Названия групп, у которых больше одного куратора.
                     try
                     {
-                        var res5 = LinqDatabaseRequests.GetGroupsWithMoreThanCurators(context, curatorCountT5);
+                        var res5 = ExtensionMethods.GetGroupsWithMoreThanCurators(context, curatorCountT5);
                         ConsolePrintClass.PrintResults(res5, task5, b => Console.WriteLine($"Группа: {b.Name} (Кураторов: {b.Count})"));
                     }
                     catch (Exception ex)
@@ -273,7 +273,7 @@ namespace DataBaseModels
                     #region 6. Названия групп, имеющих рейтинг меньше, чем минимальный рейтинг групп 5-го курса.
                     try
                     {
-                        var res6 = LinqDatabaseRequests.GetGroupsWithRatingLowerThanMinForYear(context, yearT6);
+                        var res6 = ExtensionMethods.GetGroupsWithRatingLowerThanMinForYear(context, yearT6);
                         ConsolePrintClass.PrintResults(res6, task6, b => Console.WriteLine($"Группа: {b.Name}, Рейтинг: {b.AvgRating:F2}"));
                     }
                     catch (Exception ex)
@@ -285,7 +285,7 @@ namespace DataBaseModels
                     #region 7. Процедура - Названия факультетов, суммарный фонд финансирования кафедр которых больше суммарного фонда финансирования кафедр факультета «Com­puter Science».
                     try
                     {
-                        var res7 = LinqDatabaseRequests.GetProcedureFacultiesWithHigherFinancingThan(context, facultyNameT7);
+                        var res7 = ExtensionMethods.GetProcedureFacultiesWithHigherFinancingThan(context, facultyNameT7);
                         ConsolePrintClass.PrintResults(res7, task7, b => Console.WriteLine($"Факультет: {b.Name}"));
                     }
                     catch (Exception ex)
@@ -297,7 +297,7 @@ namespace DataBaseModels
                     #region 8. Названия дисциплин и полные имена преподавателей, читающих наибольшее количество лекций по ним.
                     try
                     {
-                        var res8 = LinqDatabaseRequests.GetTopTeacherPerSubject(context);
+                        var res8 = ExtensionMethods.GetTopTeacherPerSubject(context);
                         ConsolePrintClass.PrintResults(res8, task8,
                         b => Console.WriteLine($"Дисциплина: {b.SubjectName}, Преподаватель: {b.TeacherFullName} (Лекций: {b.LectureCount})"));
                     }
@@ -310,7 +310,7 @@ namespace DataBaseModels
                     #region 9. Название дисциплины, по которому читается меньше всего лекций
                     try
                     {
-                        var res9 = LinqDatabaseRequests.GetSubjectWithLeastLectures(context);
+                        var res9 = ExtensionMethods.GetSubjectWithLeastLectures(context);
                         ConsolePrintClass.PrintResults(res9, task9, b => Console.WriteLine($"Предмет: {b.Name} (Лекций: {b.Count})"));
                     }
                     catch (Exception ex)
@@ -322,7 +322,7 @@ namespace DataBaseModels
                     #region 10. Количество студентов и читаемых дисциплин на кафедре «Software Development»
                     try
                     {
-                        var res10 = LinqDatabaseRequests.GetStudentAndSubjectCountForDept(context, deptNameT10);
+                        var res10 = ExtensionMethods.GetStudentAndSubjectCountForDept(context, deptNameT10);
                         ConsolePrintClass.PrintResults(res10, task10, b => Console.WriteLine($"Студентов: {b.StudentCount}, Дисциплин: {b.SubjectCount}"));
                     }
                     catch (Exception ex)
