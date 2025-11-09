@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModelsCreating.Models;
+using Dapper;
+using System.Configuration;
 
 namespace DataBaseModels
 {
@@ -154,6 +156,18 @@ namespace DataBaseModels
             #endregion
 
             #region Переменные для заданий
+
+            string connectionStr = "";
+            try
+            {
+                connectionStr = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Не удалось прочитать строку подключения из App.config." + ex.Message);
+                return;//ну а что еще делать если у меня опять сервер изначально упал хд
+            }
+
             // --- Задание 1 ---
             var num1 = 100000;
             var task1 = $"\n1. Вывести номера корпусов, если суммарный фонд финансирования расположенных в них кафедр превышает {num1}";
@@ -205,7 +219,7 @@ namespace DataBaseModels
             try
             {
 
-                using (var context = new DbContext())
+                using (var context = new DbContext())//еф кор находит строку подключения через он конфигуринг
                 {
 
                     #region ExtensionMethods
@@ -494,8 +508,54 @@ namespace DataBaseModels
             {
                 Console.WriteLine(ex.Message + Environment.CommandLine);
             }
+            #region DapperRequests
+            try
+            {
+                // 1. CREATE
+                var newTeacher = new Teachers
+                {
+                    Name = "Саша",
+                    Surname = "Тартарова",
+                    Salary = 15000,
+                    IsProfessor = false
+                };
+                int newId = DapperRequestsTeachers.CreateTeacher(connectionStr, newTeacher);
+                Console.WriteLine($"Создан преподаватель с ID: {newId}");
+
+                // 2. READ 
+                var fetchedTeacher = DapperRequestsTeachers.GetTeacherById(connectionStr, newId);
+                Console.WriteLine($"Найден: {fetchedTeacher.Name} {fetchedTeacher.Surname}");
+
+                // 3. UPDATE
+                fetchedTeacher.Salary = 16000;
+                fetchedTeacher.Name = "Олександра";
+                int updatedRows = DapperRequestsTeachers.UpdateTeacher(connectionStr, fetchedTeacher);
+                Console.WriteLine($"Обновлено строк: {updatedRows}");
+
+                // 4. READ (Все)
+                var allTeachers = DapperRequestsTeachers.GetAllTeachers(connectionStr);
+                Console.WriteLine($"Всего преподавателей (после Update): {allTeachers.Count()}");
+
+                // 5. DELETE
+                int deletedRows = DapperRequestsTeachers.DeleteTeacher(connectionStr, newId);
+                Console.WriteLine($"Удалено строк: {deletedRows}");
+
+                // (Проверка, что удаление сработало)
+                var allTeachersAfterDelete = DapperRequestsTeachers.GetAllTeachers(connectionStr);
+                Console.WriteLine($"Всего преподавателей (после Delete): {allTeachersAfterDelete.Count()}");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
         }
+
+        #endregion
+
 
     }
 
 }
+
+

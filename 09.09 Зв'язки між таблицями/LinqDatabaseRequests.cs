@@ -46,7 +46,7 @@ namespace DataBaseModels
                                         {
                                             Name = g.Name,
                                             AvgRating = g.GroupsStudentsNav.Select(gs => (int?)gs.StudentNav.Rating).Average() ?? 0
-                                        }).ToList(); // <-- Материализация
+                                        }).ToList();  
 
             var filteredGroups = from g in allGroupsWithRatings
                                  where g.AvgRating > targetRating
@@ -89,7 +89,7 @@ namespace DataBaseModels
                                select new
                                {
                                    AvgRating = g.GroupsStudentsNav.Select(gs => (int?)gs.StudentNav.Rating).Average() ?? 0
-                               }).ToList(); // <-- Материализация
+                               }).ToList(); 
 
             var minRatingForYear = (from r in yearRatings
                                     where r.AvgRating > 0
@@ -102,7 +102,7 @@ namespace DataBaseModels
                                         {
                                             Name = g.Name,
                                             AvgRating = g.GroupsStudentsNav.Select(gs => (int?)gs.StudentNav.Rating).Average() ?? 0
-                                        }).ToList(); // <-- Материализация
+                                        }).ToList(); 
 
             var filteredGroups = from g in allGroupsWithRatings
                                  where g.AvgRating > 0 &&
@@ -147,7 +147,7 @@ namespace DataBaseModels
             var subject = (from s in context.Subjects
                            orderby s.LecturesNav.Count()
                            select new { s.Name, Count = s.LecturesNav.Count() })
-                          .Take(1) // <-- Метод расширения
+                          .Take(1) 
                           .ToList();
 
             return subject;
